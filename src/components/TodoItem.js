@@ -24,17 +24,22 @@ class TodoItem extends Component {
 
   render() {
     const { id, title } = this.props.todo;
-    const { markComplete } = this.props;
+    const { toggleComplete } = this.props;
     return (
       <div style={this.completedStyle()}>
         <p>
-          <input type="checkbox" onChange={markComplete.bind(this, id)} />
+          <input
+            className="m-2"
+            type="checkbox"
+            onChange={toggleComplete.bind(this, id)}
+          />
           {title}
           <button
+            className="close"
+            aria-label="Close"
             onClick={this.props.onDelete.bind(this, id)}
-            style={this.deleteStyle()}
           >
-            X
+            <span aria-hidden="true">&times;</span>
           </button>
         </p>
       </div>

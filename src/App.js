@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import "./App.css";
 import Todos from "./components/Todos";
+import NavBar from "./components/layout/NavBar";
+import AddTodo from "./components/AddTodo";
 
 class App extends Component {
   state = {
@@ -23,19 +25,34 @@ class App extends Component {
   };
 
   handleDelete = id => {
-    const todos = [...this.state.todos].filter(todo => todo.id !== id);
+    const todos = [...this.state.todos.filter(todo => todo.id !== id)];
     this.setState({ todos });
+  };
+
+  handleAddTodoSubmit = title => {
+    console.log("New todo: ", title);
+    const newId = this.state.todos.length + 1;
+    const todoNew = {
+      id: newId,
+      title,
+      completed: false
+    };
+    this.setState({ ...this.state.todos.push(todoNew) });
   };
 
   render() {
     return (
-      <div className="App">
-        <Todos
-          todos={this.state.todos}
-          markComplete={this.handleToggleComplete}
-          onDelete={this.handleDelete}
-        />
-      </div>
+      <React.Fragment>
+        <NavBar />
+        <main className="container">
+          <AddTodo onAddTodoSubmit={this.handleAddTodoSubmit} />
+          <Todos
+            todos={this.state.todos}
+            toggleComplete={this.handleToggleComplete}
+            onDelete={this.handleDelete}
+          />
+        </main>
+      </React.Fragment>
     );
   }
 }
